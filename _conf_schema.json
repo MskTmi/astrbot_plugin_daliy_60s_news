@@ -1,0 +1,38 @@
+{
+  "groups": {
+    "description": "需要推送60s新闻的群组唯一标识符列表",
+    "type": "list",
+    "hint": "填写需要接收60s新闻推送的群组唯一标识符，如: wechatpadpro:GroupMessage:575xxxx1665@chatroom",
+    "obvious_hint": true,
+    "default": ["wechatpadpro:GroupMessage:你的群号@chatroom"]
+  },
+  "news_type": {
+    "description": "news_type",
+    "type": "string",
+    "hint": "新闻的发送方式",
+    "options": [
+      "text",
+      "image"
+    ],
+    "default": "text"
+  },
+  "push_time": {
+    "description": "推送时间(以服务器时区为准)",
+    "type": "string",
+    "hint": "填写推送的时间，如: 08:00,18:00",
+    "default": "08:00"
+  },
+  "save_days": {
+    "description": "保存多久的新闻",
+    "type": "int",
+    "hint": "填写需要保留的新闻时间，单位为天.默认保留30天",
+    "default": 30
+  },
+  "news_api": {
+    "description": "今日新闻api",
+    "type": "string",
+    "hint": "使用https://github.com/vikiboss/60s提供的接口,客户端默认参数?date=20250xxx&encoding=text/image-proxy\n非同格式接口不可用",
+    "obvious_hint": true,
+    "default": "https://60s-api.viki.moe/v2/60s"
+  }
+}
