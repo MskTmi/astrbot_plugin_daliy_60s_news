@@ -61,7 +61,7 @@ class Daily60sNewsPlugin(Star):
     @mnews.command("status")
     async def check_status(self, event: AstrMessageEvent):
         """
-        检查插件状态
+        检查插件状态（仅管理员）
         """
         sleep_time = self._calculate_sleep_time()
         hours = int(sleep_time / 3600)
