@@ -37,7 +37,7 @@ class Daily60sNewsPlugin(Star):
         self.push_time = self.config.push_time
         logger.info(f"插件配置: {self.config}")
         # 启动定时任务
-        asyncio.create_task(self._daily_task())
+        self._monitoring_task = asyncio.create_task(self._daily_task())
 
     @filter.command_group("新闻")
     def mnews(self):
@@ -109,6 +109,12 @@ class Daily60sNewsPlugin(Star):
         """
         news_path, _ = await self._get_image_news()
         yield event.image_result(news_path)
+
+    async def terminate(self):
+        """插件卸载时调用"""
+        if self._monitoring_task:
+            self._monitoring_task.cancel()
+        logger.info("每日60s新闻插件: 定时任务已停止")
 
     def _file_exists(self, path: str) -> bool:
         """
