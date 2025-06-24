@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Any, Tuple
 
 import aiohttp
-
 from astrbot.api import AstrBotConfig, logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
@@ -198,8 +197,8 @@ class Daily60sNewsPlugin(Star):
         """
         推送新闻到所有目标群组
         """
-        try:
-            for target in self.config.groups:
+        for target in self.config.groups:
+            try:
                 if self.news_type == "text":
                     news_content, _ = await self._get_text_news()
                     message_chain = MessageChain().message(news_content)
@@ -214,8 +213,12 @@ class Daily60sNewsPlugin(Star):
                     await self.context.send_message(target, message_chain)
                 logger.info(f"[每日新闻] 已向{target}推送定时新闻。")
                 await asyncio.sleep(2)  # 防止推送过快
-        except Exception as e:
-            logger.error(f"[每日新闻] 推送新闻失败: {e}")
+            except Exception as e:
+                error_message = str(e) if str(e) else "未知错误"
+                logger.error(f"[每日新闻] 推送新闻失败: {error_message}")
+                # 可选：记录堆栈跟踪信息
+                logger.exception("详细错误信息：")
+                await asyncio.sleep(2)  # 防止推送过快
 
     def _calculate_sleep_time(self) -> float:
         """
