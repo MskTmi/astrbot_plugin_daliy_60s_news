@@ -109,11 +109,30 @@ class Daily60sNewsPlugin(Star):
         news_path, _ = await self._get_image_news()
         yield event.image_result(news_path)
 
+    @filter.permission_type(filter.PermissionType.ADMIN)
+    @mnews.command("update_news")
+    async def update_news_files(self, event: AstrMessageEvent):
+        """
+        强制更新新闻文件（仅管理员）
+        """
+        text_content = await self._update_news_files()
+        yield event.plain_result(
+            f"{event.get_sender_name()}:今日新闻文件已更新,文字新闻简略内容:\n{text_content[:50]}..."
+        )
+
     async def terminate(self):
         """插件卸载时调用"""
         if self._monitoring_task:
             self._monitoring_task.cancel()
         logger.info("每日60s新闻插件: 定时任务已停止")
+
+    async def _update_news_files(self):
+        logger.info("开始强制更新新闻文件...")
+        text_path, _ = self._get_news_file_path(news_type="text")
+        text_content, _ = await self._download_news(path=text_path, news_type="text")
+        image_path, _ = self._get_news_file_path(news_type="image")
+        await self._download_news(path=image_path, news_type="image")
+        return text_content
 
     def _file_exists(self, path: str) -> bool:
         """
@@ -171,6 +190,7 @@ class Daily60sNewsPlugin(Star):
         for attempt in range(retries):
             try:
                 url = f"https://60s-api.viki.moe/v2/60s?date={date}&encoding={url_type}"
+                logger.info(f"开始下载新闻文件:{url}...")
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url, timeout=timeout) as response:
                         if response.status == 200:
@@ -257,6 +277,7 @@ class Daily60sNewsPlugin(Star):
                 sleep_time = self._calculate_sleep_time()
                 logger.info(f"[每日新闻] 下次推送将在 {sleep_time / 3600:.2f} 小时后")
                 await asyncio.sleep(sleep_time)
+                await self._update_news_files()
                 await self._delete_expired_news_files()
                 await self._send_daily_news_to_groups()
                 await asyncio.sleep(60)  # 避免重复推送
