@@ -187,9 +187,13 @@ class Daily60sNewsPlugin(Star):
         timeout = 5
         url_type = "text" if news_type == "text" else "image-proxy"
         date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        # 读取配置里的 news_api，没有则用默认
+        base_api = getattr(self.config, "news_api", None) or "https://60s-api.viki.moe/v2/60s"
+
         for attempt in range(retries):
             try:
-                url = f"https://60s-api.viki.moe/v2/60s?date={date}&encoding={url_type}"
+                url = f"{base_api}?date={date}&encoding={url_type}"
                 logger.info(f"开始下载新闻文件:{url}...")
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url, timeout=timeout) as response:
@@ -204,9 +208,7 @@ class Daily60sNewsPlugin(Star):
                         else:
                             raise Exception(f"API返回错误代码: {response.status}")
             except Exception as e:
-                logger.error(
-                    f"[mnews] 请求失败，正在重试 {attempt + 1}/{retries} 次: {e}"
-                )
+                logger.error(f"[mnews] 请求失败，正在重试 {attempt + 1}/{retries} 次: {e}")
                 if attempt == retries - 1:
                     logger.error(f"[mnews] 请求新闻接口失败: {e}")
                     content = f"接口报错，请联系管理员:{e}"
