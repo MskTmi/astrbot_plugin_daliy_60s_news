@@ -228,11 +228,18 @@ class Daily60sNewsPlugin(Star):
                     await self.context.send_message(target, message_chain)
                 else:
                     news_path, _ = await self._get_image_news()
-                    message_chain = (
-                        MessageChain().message("每日新闻播报：").file_image(news_path)
+                    message_chain_text = (
+                        MessageChain().message("早上好呀, 这是今天的新闻速报\nq(≧▽≦q)")
                     )
+                    await self.context.send_message(target, message_chain_text)
+                    
+                    message_chain_img = (
+                        MessageChain().file_image(news_path)
+                    )
+                    await self.context.send_message(target, message_chain_img)
+                    
                     logger.info(f"[每日新闻] 推送图片新闻: {news_path}")
-                    await self.context.send_message(target, message_chain)
+                    
                 logger.info(f"[每日新闻] 已向{target}推送定时新闻。")
                 await asyncio.sleep(2)  # 防止推送过快
             except Exception as e:
