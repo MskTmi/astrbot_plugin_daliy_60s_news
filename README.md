@@ -1,4 +1,11 @@
 # astrbot_plugin_daily_60s_news
+> 基于 astrbot_plugin_daily_60s_news 的 Fork
+
+## Fork 后的更改
+
+1. 新闻内容下载时使用配置文件中的设置，增强可配置性和可维护性
+2. 修改了定时推送逻辑，支持分别发送新闻的文本描述和图片内容
+3. 修改定时推送时的附加文本，语句更加可爱 Ciallo～ (∠・ω< )⌒☆
 
 ## 项目简介
 
@@ -60,7 +67,7 @@ op <UID> 授权管理员, /deop <UID> 取消管理员。
 后缀：/sid中获取的UID
 最终组合结果类似：
 ```text
-wechatpadpro:GroupMessage:123456789@chatroom
+wechatpadpro:GroupMessage:123456789
 ```
 
 ## 使用方法
