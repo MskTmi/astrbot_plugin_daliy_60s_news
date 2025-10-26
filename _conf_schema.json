@@ -2,9 +2,9 @@
   "groups": {
     "description": "需要推送60s新闻的群组唯一标识符列表",
     "type": "list",
-    "hint": "填写需要接收60s新闻推送的群组唯一标识符，如: wechatpadpro:GroupMessage:575xxxx1665@chatroom",
+    "hint": "填写需要接收60s新闻推送的群组唯一标识符，如: xxxxxx:GroupMessage:123xxxxxxx",
     "obvious_hint": true,
-    "default": ["wechatpadpro:GroupMessage:你的群号@chatroom"]
+    "default": ["xxxxxx:GroupMessage:你的群号"]
   },
   "news_type": {
     "description": "news_type",
