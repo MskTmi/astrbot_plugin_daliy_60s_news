@@ -31,32 +31,35 @@
    git clone https://github.com/CJSen/astrbot_plugin_daliy_60s_news.git
    ```
 2. 进入AstrBot网页插件配置界面，调整相关配置，并保存。
+   
+## 配置说明
+群聊唯一标识符分为: **前缀:中缀:后缀**
 
-3. groups配置格式，在机器人所在群聊中发送"/sid"获取相关信息。其中SID为群聊ID，即配置页面中的groups参数
-/sid回复格式：
-```
-SID: aiocqhttp:GroupMessage:987654321 此 ID 可用于设置会话白名单。
-/wl <SID> 添加白名单, /dwl <SID> 删除白名单。
+### 前缀
+在机器人所在群聊中发送"/sid"获取相关信息，其中SID为群聊ID，即 **前缀** 
 
-UID: 12345678 此 ID 可用于设置管理员。
-op <UID> 授权管理员, /deop <UID> 取消管理员。
-```
+- AstrBot 4.0 之前所有可选的群组唯一标识符前缀:
+  > ~~应该不会有人还在用旧版本吧~~
+  
+   | 平台                                | 群组唯一标识符前缀     |
+   |-------------------------------------|------------------------|
+   | qq, napcat, Lagrange 之类的         | aiocqhttp              |
+   | qq 官方 bot                         | qq_official            |
+   | telegram                            | telegram               |
+   | 钉钉                                | dingtalk               |
+   | wechatpadpro微信                    | wechatpadpro           |
+   | gewechat 微信(虽然已经停止维护)     | gewechat               |
+   | lark                                | lark                   |
+   | qq webhook 方法                     | qq_official_webhook    |
+   | astrbot 网页聊天界面                | webchat                |
 
-解释说明：群聊唯一标识符分为: 前缀:中缀:后缀
 
-下面是所有可选的群组唯一标识符前缀:
-| 平台                                | 群组唯一标识符前缀     |
-|-------------------------------------|------------------------|
-| qq, napcat, Lagrange 之类的         | aiocqhttp              |
-| qq 官方 bot                         | qq_official            |
-| telegram                            | telegram               |
-| 钉钉                                | dingtalk               |
-| wechatpadpro微信                    | wechatpadpro           |
-| gewechat 微信(虽然已经停止维护)     | gewechat               |
-| lark                                | lark                   |
-| qq webhook 方法                     | qq_official_webhook    |
-| astrbot 网页聊天界面                | webchat                |
 
+- AstrBot 4.0 以后群聊前缀，不再是 aiocqhttp、wechatpadpro 等，修改为 `AstrBot主页/消息平台/{机器人名称}` 中自己起的名字  
+  例如：
+   `aiocqhttp:GroupMessage:xxxxx` -> `Felis:GroupMessage:xxxxx`
+
+### 中缀
 下面是所有可选的群组唯一标识符中缀:
 | 群组唯一标识符中缀   | 描述       |
 |----------------------|------------|
@@ -64,10 +67,13 @@ op <UID> 授权管理员, /deop <UID> 取消管理员。
 | FriendMessage        | 私聊消息   |
 | OtherMessage         | 其他消息   |
 
-后缀：/sid中获取的UID
+### 后缀
+后缀：群号
+
+
 最终组合结果类似：
 ```text
-wechatpadpro:GroupMessage:123456789
+XXXX:GroupMessage:123456789
 ```
 
 ## 使用方法
